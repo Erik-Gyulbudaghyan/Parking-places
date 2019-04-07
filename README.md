@@ -20,3 +20,17 @@ Resolution - my project will show also how much it would cost in different range
 
 4.User Need - he or she need to have more information about that parking place.
 Resolution - in that desk it will show the rating of that parking place, and that rating will be made from users.
+
+User story - as a user i can click on desk to choose a free place in that parking.
+
+Data - User --> create account(name,surname)
+       Parking Place --> free places (with white color)
+                     --> already using (with black)
+                     --> your choosed place (with green)
+       Your hour range --> (From 0 hour - 1 hour)
+                       --> (1 hour - 2 hour)
+                       --> (2 hour - 5 hour)
+                       --> (5 hour - 12 hour)
+                       --> (12 hour - 24 hour)
+                       --> (24 hour - and more)
+       Price for every hour range --> (200, 500, 1000, 5000, ..... and more)
