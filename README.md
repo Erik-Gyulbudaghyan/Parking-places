@@ -24,6 +24,8 @@ Resolution - in that desk it will show the rating of that parking place, and tha
 User story - as a user i can click on desk to choose a free place in that parking.
 
 Data - User --> create account(name,surname)
+            --> choose playes
+            --> pay
        Parking Place --> free places (with white color)
                      --> already using (with black)
                      --> your choosed place (with green)
