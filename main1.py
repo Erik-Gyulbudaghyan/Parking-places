@@ -1,5 +1,8 @@
 import json
 
+places = ("place N1", "place N2", "place N3", "place N4", "place N5")
+times = ("range 0-1", "range 1-2", "range 2-5", "range 5-12", "range 12-24", "range 24-more")
+
 def loadLoginData():
     log = input("choose between user/manager: ")
     user = "user"
@@ -15,70 +18,36 @@ def loadSaveNameData():
     saveName = input("Name and Surname: ")
     return saveName
 
+
+
 def loadParkPlaceInfo():
     with open('parking.json') as data_file:
         parkPlace = json.load(data_file)
-        parkingIds = parkPlace["parking_places"]["parking_ID"]
-        for keys, values in parkingIds.items():
-            print(values)
-            return parkPlace
+        return parkPlace
 
 
-def askForPlace():
-    current_place = input("Choose your place: ")
-    print(current_place)
+def loadAskForPlace():
+    print(places)
+    current_place = input("Choose your parking place: ")
     return current_place
 
-def loadParkTimeInfo():
-    with open('parking.json') as data_file:
-        parkTime = json.load(data_file)
-        parkingIds2 = parkTime["parking_place"]["Time_range"]
-        for keys, values in parkingIds2.items():
-            print(keys, "-", values)
-            return parkTime
-
-
-
-def askForTime():
-    current_time = input("Choose your time range: ")
-    print(current_time)
+def loadAskForTime():
+    print(times)
+    current_time = input("Choose your parking time range: ")
     return current_time
 
-def result():
-    print(current_place, current_time)
-    
-    
-def loadSetupData():
-    place_setup = input("Choose what to change in place: ")
-    print(place_setup)
-    return place_setup
-
-def loadTimeSetupData():
-    time_setup = input("Choose what to change in time range: ")
-    print(time_setup)
-    return time_setup
-
-
+def printResult(current_time, current_place, saveName):
+    print("Your Place and Time are: " + saveName, current_place, current_time)
 
 def main():
     log = loadLoginData()
     saveName = loadSaveNameData()
     print(saveName)
     parkPlace = loadParkPlaceInfo()
-    parkingIds = parkPlace.items()
-    print(parkingIds)
-    if log == user:
-        current_place = askForPlace()
-        current_time = askForTime()
-        savePlace(current_place)
-        sameTime(current_time)
-        printCurrentPlace(current_place)
-        printCurrentTime(current_time)
-        result()=print(current_time, current_place)
-    elif log == manager:
-        place_setup = loadSetupData()
-        time_setup = loadTimeSetupData()
-        printCurrentPlace(current_place, place_setup)
-        printCurrentTime(current_time, time_setup)
-
+    if log == 'user':
+        current_place = loadAskForPlace()
+        print(current_place)
+        current_time = loadAskForTime()
+        print(current_time)
+        printResult(current_time, current_place, saveName)
 main()
