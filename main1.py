@@ -37,7 +37,9 @@ def loadAskForTime():
     return current_time
 
 def printResult(current_time, current_place, saveName):
-    print("Your Place and Time are: " + saveName, current_place, current_time)
+    if current_time == "range 0-1":
+        print("Your Place and Time are: " + saveName, current_place, current_time + ": 500 AMD")
+        return printResult
 
 def main():
     log = loadLoginData()
