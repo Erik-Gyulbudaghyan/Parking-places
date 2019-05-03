@@ -39,6 +39,16 @@ def loadAskForTime():
 def printResult(current_time, current_place, saveName):
     if current_time == "range 0-1":
         print("Your Place and Time are: " + saveName, current_place, current_time + ": 500 AMD")
+    elif current_time == "range 1-2":
+        print("Your Place and Time are: " + saveName, current_place, current_time + ": 1000 AMD")
+    elif current_time == "range 2-5":
+        print("Your Place and Time are: " + saveName, current_place, current_time + ": 2500 AMD")
+    elif current_time == "range 5-12":
+        print("Your Place and Time are: " + saveName, current_place, current_time + ": 5000 AMD")
+    elif current_time == "range 12-24":
+        print("Your Place and Time are: " + saveName, current_place, current_time + ": 10000 AMD")
+    elif current_time == "range 24-more":
+        print("Your Place and Time are: " + saveName, current_place, current_time + ": 20000 AMD")
         return printResult
 
 def main():
