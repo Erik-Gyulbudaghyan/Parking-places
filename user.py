@@ -29,18 +29,24 @@ def loadParkPlaceInfo():
 def loadAskForPlace(initialParkPlaceData):
     print(places)
     current_place = input("Choose your parking place: ")
+    while int(current_place) not in range(0, 5):
+        print("Your Data is Wrong, Please Try Again")
+        current_place = input("Choose your parking place: ")
     if int(current_place) in range(0, 5):
         current_place_key = "00" + current_place
         print(initialParkPlaceData["parking_places"]["parking_ID"][current_place_key])
         return initialParkPlaceData["parking_places"]["parking_ID"][current_place_key]
-    else:
-        print("Your Data Is Wrong")
-        return current_place
+
 
 def loadAskForTime():
     print(times)
     current_time = input("Choose your parking time range: ")
-    return current_time
+    while int(current_time) not in range(100):
+        print("Your Data is Wrong, Please Try Again")
+        current_time = input("Choose your parking time range: ")
+    if int(current_time) in range(100):
+        return current_time
+
 
 def printResult(current_time, current_place, saveName, initialParkPlaceData):
     price = -1
