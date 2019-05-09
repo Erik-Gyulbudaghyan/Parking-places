@@ -41,10 +41,10 @@ def loadAskForPlace(initialParkPlaceData):
 def loadAskForTime():
     print(times)
     current_time = input("Choose your parking time range: ")
-    while int(current_time) not in range(100):
+    while int(current_time) not in range(72):
         print("Your Data is Wrong, Please Try Again")
         current_time = input("Choose your parking time range: ")
-    if int(current_time) in range(100):
+    if int(current_time) in range(72):
         return current_time
 
 
@@ -58,7 +58,7 @@ def printResult(current_time, current_place, saveName, initialParkPlaceData):
         price = initialParkPlaceData["parking_places"]["time_range"]["range 5-12"]
     elif current_time in range(12, 24):
         price = initialParkPlaceData["parking_places"]["time_range"]["range 12-24"]
-    elif current_time in range(24, 100):
+    elif current_time in range(24, 72):
         price = initialParkPlaceData["parking_places"]["time_range"]["range 24-100"]
 
     if (price > -1 ):
