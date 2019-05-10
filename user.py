@@ -1,6 +1,6 @@
 import json
 
-places = ("place N1", "place N2", "place N3", "place N4", "place N5")
+places = ("place N1", "place N2", "place N3", "place N4", "place N5", "place N6", "place N7", "place N8", "place N9", "place N10")
 times = ("range 0-2", "range 2-5", "range 5-12", "range 12-24", "range 24-more")
 
 def loadLoginData():
@@ -33,10 +33,10 @@ def loadUsedPlaceInfo():
 def loadAskForPlace(initialParkPlaceData):
     print(places)
     current_place = input("Choose your parking place: ")
-    while int(current_place) not in range(0, 5):
+    while int(current_place) not in range(0, 11):
         print("Your Data is Wrong, Please Try Again")
         current_place = input("Choose your parking place: ")
-    if int(current_place) in range(0, 5):
+    if int(current_place) in range(0, 11):
         current_place_key = "00" + current_place
         print(initialParkPlaceData["parking_place"]["parking_ID"][current_place_key])
         return initialParkPlaceData["parking_place"]["parking_ID"][current_place_key]
