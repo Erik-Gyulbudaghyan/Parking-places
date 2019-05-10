@@ -25,6 +25,10 @@ def loadParkPlaceInfo():
         parkPlace = json.load(data_file)
         return parkPlace
 
+def loadUsedPlaceInfo():
+    with open('usedPlace.json') as data_file:
+        usedPlace = json.load(data_file)
+        return usedPlace
 
 def loadAskForPlace(initialParkPlaceData):
     print(places)
@@ -34,8 +38,17 @@ def loadAskForPlace(initialParkPlaceData):
         current_place = input("Choose your parking place: ")
     if int(current_place) in range(0, 5):
         current_place_key = "00" + current_place
-        print(initialParkPlaceData["parking_places"]["parking_ID"][current_place_key])
-        return initialParkPlaceData["parking_places"]["parking_ID"][current_place_key]
+        print(initialParkPlaceData["parking_place"]["parking_ID"][current_place_key])
+        return initialParkPlaceData["parking_place"]["parking_ID"][current_place_key]
+
+def loadSavePlace(initialUsedPlaceData, current_place):
+    save_place = current_place
+    with open("usedPlace.json", 'r') as file:
+        dicts_data = json.load(file)
+        dicts_data['used_place'].append(save_place)
+    with open("usedPlace.json", 'w') as file:
+        file.write(json.dumps(dicts_data))
+    return initialUsedPlaceData["used_place"]
 
 
 def loadAskForTime():
@@ -51,15 +64,15 @@ def loadAskForTime():
 def printResult(current_time, current_place, saveName, initialParkPlaceData):
     price = -1
     if current_time in range(2):
-        price = initialParkPlaceData["parking_places"]["time_range"]["range 0-2"]
+        price = initialParkPlaceData["parking_place"]["Time_range"]["range 0-2"]
     elif current_time in range(2, 5):
-        price = initialParkPlaceData["parking_places"]["time_range"]["range 2-5"]
+        price = initialParkPlaceData["parking_place"]["Time_range"]["range 2-5"]
     elif current_time in range(5, 12):
-        price = initialParkPlaceData["parking_places"]["time_range"]["range 5-12"]
+        price = initialParkPlaceData["parking_place"]["Time_range"]["range 5-12"]
     elif current_time in range(12, 24):
-        price = initialParkPlaceData["parking_places"]["time_range"]["range 12-24"]
+        price = initialParkPlaceData["parking_place"]["Time_range"]["range 12-24"]
     elif current_time in range(24, 72):
-        price = initialParkPlaceData["parking_places"]["time_range"]["range 24-100"]
+        price = initialParkPlaceData["parking_place"]["Time_range"]["range 24-72"]
 
     if (price > -1 ):
         print("Your Place and Time are: " + saveName, current_place, str(current_time) + " hours: " + str(price) + " AMD")
@@ -73,8 +86,11 @@ def main():
     print(saveName)
     parkPlace = loadParkPlaceInfo()
     if log == 'user':
+        usedPlace = loadUsedPlaceInfo()
         current_place = loadAskForPlace(parkPlace)
         print(current_place)
+        save_place = loadSavePlace(usedPlace, current_place)
+        print(save_place, current_place)
         current_time = loadAskForTime()
         print(current_time)
         printResult(int(current_time), current_place, saveName, parkPlace)
