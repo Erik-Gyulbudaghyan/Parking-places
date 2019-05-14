@@ -27,10 +27,10 @@ def loadSaveData(initialUsedPlaceData):
 
 def loadAskForChange():
     change = input("Do you want to make any changes (Yes/Not): ")
-    while change == "Not" or "No" or "not" or "no":
+    while change.lower() == "no" or change.lower() == "not":
         print("Goodbye: ")
-        break
-    if change == "Yes" or "yes":
+        change = input("You can change your opinion:  (Yes/Not): ")
+    if change.lower() == "yes":
         print(change)
         return change
 
@@ -39,14 +39,36 @@ def loadParkPlaceInfo():
         parkPlace = json.load(data_file)
         return parkPlace
 
-def loadTimedata(initialParkPlaceData, change):
-    if change == "Yes" or "yes":
-        time_change = initialParkPlaceData["parking_place"]["Time_range"]
-        print(time_change)
+def loadTimeData(initialParkPlaceData, change):
+    if change.lower() == "yes":
+        time_code = initialParkPlaceData["parking_place"]["Time_range"]
+        print(time_code)
+
+def loadQuestionData():
+        question = input("Do you want to change some of this ranges (Yes/No): ")
+        while question.lower() == "no" or question.lower() == "not":
+            print("OK, if you want to change your opinion please write Yes: ")
+            question = input("Do you want to change some of this ranges (Yes/No): ")
+        if question.lower() == "yes":
+            print(question)
+            return question
+
+def askTimeChange(initialParkPlaceData, question):
+    if question.lower() == "yes":
+        time_change = input("Chose which to change: ").lower()
+        if time_change == "range 0-2" or time_change == "range 2-5" or time_change == "range 5-12" or time_change == "range 12-24" or time_change == "range 24-72":
+            with open("parking.json", 'r') as file:
+                read_data = json.load(file)
+                initialParkPlaceData["parking_place"]["Time_range"][time_change] = int(input("New rate: "))
+            with open("parking.json", 'w') as file:
+                file.write(json.dumps(initialParkPlaceData))
+
+
 
 
 
 def main():
+
     log = loadLoginData()
     saveName = loadSaveNameData()
     print(saveName)
@@ -56,10 +78,12 @@ def main():
         print(save_data)
         change = loadAskForChange()
         print(change)
-        if change == "Yes" or "yes":
+        if change.lower() == "yes":
             parkPlace = loadParkPlaceInfo()
-            time_change = loadTimedata(parkPlace, change)
-            print(time_change)
-
-
+            time_code = loadTimeData(parkPlace, change)
+            print(time_code)
+            question = loadQuestionData()
+            if question.lower() == "yes":
+                time_change = askTimeChange(parkPlace, question)
+                print(time_change)
 main()
