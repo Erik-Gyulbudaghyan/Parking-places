@@ -18,8 +18,6 @@ def loadSaveNameData():
     saveName = input("Name and Surname: ")
     return saveName
 
-
-
 def loadParkPlaceInfo():
     with open('parking.json') as data_file:
         parkPlace = json.load(data_file)
@@ -29,6 +27,15 @@ def loadUsedPlaceInfo():
     with open('usedPlace.json') as data_file:
         usedPlace = json.load(data_file)
         return usedPlace
+
+def LoadSaveNameSurnameData(initialUsedPlaceData, saveName):
+    save_name = saveName
+    with open("usedPlace.json", 'r') as file:
+        dicts_data = json.load(file)
+        dicts_data['used_place'].append(save_name)
+    with open("usedPlace.json", 'w') as file:
+        file.write(json.dumps(dicts_data))
+    return initialUsedPlaceData["used_place"]
 
 def loadAskForPlace(initialParkPlaceData):
     print(places)
@@ -60,6 +67,15 @@ def loadAskForTime():
     if int(current_time) in range(72):
         return current_time
 
+def LoadSaveTimeData(initialUsedPlaceData, current_time):
+    save_time = current_time
+    with open("usedPlace.json", 'r') as file:
+        dicts_data = json.load(file)
+        dicts_data['used_place'].append(save_time)
+    with open("usedPlace.json", 'w') as file:
+        file.write(json.dumps(dicts_data))
+    return initialUsedPlaceData["used_place"]
+
 
 def printResult(current_time, current_place, saveName, initialParkPlaceData):
     price = -1
@@ -87,11 +103,16 @@ def main():
     parkPlace = loadParkPlaceInfo()
     if log == 'user':
         usedPlace = loadUsedPlaceInfo()
+        save_name = LoadSaveNameSurnameData(usedPlace, saveName)
+        print(save_name)
         current_place = loadAskForPlace(parkPlace)
         print(current_place)
         save_place = loadSavePlace(usedPlace, current_place)
-        print(save_place, current_place)
+        print(save_place)
         current_time = loadAskForTime()
         print(current_time)
+        save_time = LoadSaveTimeData(usedPlace, current_time)
+        print(save_time)
         printResult(int(current_time), current_place, saveName, parkPlace)
+
 main()
