@@ -21,7 +21,10 @@ Resolution - my project will show also how much it would cost in different range
 4.User Need - he or she need to have more information about that parking place.
 Resolution - in that desk it will show the rating of that parking place, and that rating will be made from users.
 
-User story - as a user i can click on desk to choose a free place in that parking.
+User story - As a user i can logged in and choose a free place in that parking.
+           - As a manager i can make some changes in parking places.
+           - As a manager i can make some changes in prices.
+
 
 Data - User --> create account(name,surname)
             --> choose playes
