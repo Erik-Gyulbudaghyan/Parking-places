@@ -1,8 +1,5 @@
 import json
 
-places = ("place N1", "place N2", "place N3", "place N4", "place N5", "place N6", "place N7", "place N8", "place N9", "place N10")
-times = ("range 0-2", "range 2-5", "range 5-12", "range 12-24", "range 24-more")
-
 def loadLoginData():
     log = input("choose between user/manager: ")
     user = "user"
@@ -28,38 +25,37 @@ def loadUsedPlaceInfo():
         usedPlace = json.load(data_file)
         return usedPlace
 
-def LoadSaveNameSurnameData(initialUsedPlaceData, saveName):
-    save_name = saveName
-    with open("usedPlace.json", 'r') as file:
-        dicts_data = json.load(file)
-        dicts_data['used_place'].append(save_name)
-    with open("usedPlace.json", 'w') as file:
-        file.write(json.dumps(dicts_data))
-    return initialUsedPlaceData["used_place"]
 
-def loadAskForPlace(initialParkPlaceData):
-    print(places)
+def loadAskForPlace(initialParkPlaceData, initialUsedPlaceData):
+    place_code = initialParkPlaceData["parking_place"]["parking_ID"]
+    print(place_code)
     current_place = input("Choose your parking place: ")
-    while int(current_place) not in range(0, 11):
-        print("Your Data is Wrong, Please Try Again")
-        current_place = input("Choose your parking place: ")
-    if int(current_place) in range(0, 11):
-        current_place_key = "00" + current_place
-        print(initialParkPlaceData["parking_place"]["parking_ID"][current_place_key])
-        return initialParkPlaceData["parking_place"]["parking_ID"][current_place_key]
 
-def loadSavePlace(initialUsedPlaceData, current_place):
-    save_place = current_place
-    with open("usedPlace.json", 'r') as file:
-        dicts_data = json.load(file)
-        dicts_data['used_place'].append(save_place)
-    with open("usedPlace.json", 'w') as file:
-        file.write(json.dumps(dicts_data))
-    return initialUsedPlaceData["used_place"]
+    while True:
+        if (int(current_place) not in range(0, 11)):
+            print("Your Data is Wrong, Please Try Again")
+            current_place = input("Choose your parking place: ")
 
+        if int(current_place) in range(0, 11):
+            current_place_key = "00" + current_place
 
-def loadAskForTime():
-    print(times)
+        if (checkIfOccupied(current_place_key, initialUsedPlaceData)):
+            print("This Place is occupied")
+            current_place = input("Choose your parking place: ")
+            pass
+        else:
+            break
+    print(initialParkPlaceData["parking_place"]["parking_ID"][current_place_key])
+    return initialParkPlaceData["parking_place"]["parking_ID"][current_place_key]
+
+def checkIfOccupied(current_place_key, initialUsedPlaceData):
+    for key, item in initialUsedPlaceData["used_place"].items():
+        if (item["place"] == current_place_key):
+            return True
+    return False
+def loadAskForTime(initialParkPlaceData):
+    time_time = initialParkPlaceData["parking_place"]["Time_range"]
+    print(time_time)
     current_time = input("Choose your parking time range: ")
     while int(current_time) not in range(72):
         print("Your Data is Wrong, Please Try Again")
@@ -67,15 +63,16 @@ def loadAskForTime():
     if int(current_time) in range(72):
         return current_time
 
-def LoadSaveTimeData(initialUsedPlaceData, current_time):
-    save_time = current_time
-    with open("usedPlace.json", 'r') as file:
-        dicts_data = json.load(file)
-        dicts_data['used_place'].append(save_time)
-    with open("usedPlace.json", 'w') as file:
-        file.write(json.dumps(dicts_data))
-    return initialUsedPlaceData["used_place"]
+def loadSavePlace(userName, initialUsedPlaceData, current_place, current_time):
+    user_data = {
+        "place" : current_place,
+        "duration" : current_time
+    }
 
+    initialUsedPlaceData["used_place"][userName] = user_data
+
+    with open("usedPlace.json", 'w') as file:
+        file.write(json.dumps(initialUsedPlaceData))
 
 def printResult(current_time, current_place, saveName, initialParkPlaceData):
     price = -1
@@ -103,16 +100,12 @@ def main():
     parkPlace = loadParkPlaceInfo()
     if log == 'user':
         usedPlace = loadUsedPlaceInfo()
-        save_name = LoadSaveNameSurnameData(usedPlace, saveName)
-        print(save_name)
-        current_place = loadAskForPlace(parkPlace)
+        current_place = loadAskForPlace(parkPlace, usedPlace)
         print(current_place)
-        save_place = loadSavePlace(usedPlace, current_place)
-        print(save_place)
-        current_time = loadAskForTime()
+        current_time = loadAskForTime(parkPlace)
         print(current_time)
-        save_time = LoadSaveTimeData(usedPlace, current_time)
-        print(save_time)
+        save_place = loadSavePlace(saveName, usedPlace, current_place, current_time)
+        print(save_place)
         printResult(int(current_time), current_place, saveName, parkPlace)
 
 main()
