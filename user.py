@@ -74,15 +74,15 @@ def loadSavePlace(userName, initialUsedPlaceData, current_place, current_time):
 
 def printResult(current_time, current_place, saveName, initialParkPlaceData):
     price = -1
-    if current_time in range(3):
+    if current_time in range(2):
         price = initialParkPlaceData["parking_place"]["Time_range"]["range 0-2"]
-    elif current_time in range(3, 6):
+    elif current_time in range(2, 5):
         price = initialParkPlaceData["parking_place"]["Time_range"]["range 2-5"]
-    elif current_time in range(6, 13):
+    elif current_time in range(5, 12):
         price = initialParkPlaceData["parking_place"]["Time_range"]["range 5-12"]
-    elif current_time in range(13, 25):
+    elif current_time in range(12, 24):
         price = initialParkPlaceData["parking_place"]["Time_range"]["range 12-24"]
-    elif current_time in range(25, 72):
+    elif current_time in range(24, 72):
         price = initialParkPlaceData["parking_place"]["Time_range"]["range 24-72"]
 
     if (price > -1 ):
